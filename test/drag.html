@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>继承方法拖拽</title>
+	 <script src="js/Drag.js"></script>  
+    <script src="js/LimitDrag.js"></script>  
+    <script>  
+        window.onload = function () {  
+            new Drag('div1');  
+            new LimitDrag('div2')  
+        }  
+    </script>  
+	<style>  
+        #div1{  
+             width: 200px;  
+             height: 200px;  
+             background-color: yellow;  
+             position: absolute;  
+         }  
+  
+        #div2{  
+            width: 200px;  
+            height: 200px;  
+            background-color: blue;  
+            position: absolute;  
+        }  
+  	</style>
+</head>
+<body>
+	<div id="div1">Drag</div>  
+    <div id="div2">LimitDrag</div>  
+</body>
+</html>

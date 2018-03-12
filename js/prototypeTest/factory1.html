@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>简单工厂模式</title>
+</head>
+<body>
+<input type="button" name="alert" id='alert' value="按钮1">
+<input type="button" name="prompt" id='prompt' value="按钮2">
+<input type="button" name="confirm" id='confirm' value="按钮3">
+
+	<script type="text/javascript">
+		function createPop(type, text) {
+			var o = new Object();
+			o.content = text;
+			o.show = function () {
+				alert(text)
+			};
+			//有差异的返回
+			if(type == 'alert') {
+				
+			};
+			if(type == 'prompt') {
+				
+			};
+			if(type == 'confirm') {
+				
+			};
+			return o;
+		}
+		var btn = {
+			alert: document.getElementById('alert'),
+			prompt: document.getElementById('prompt'),
+			confirm: document.getElementById('confirm')
+		}
+		btn.alert.onclick = function(){
+			var user = createPop('alert', '1111111');
+			user.show();
+		}
+		btn.prompt.onclick = function(){
+			var user = createPop('prompt', '22222');
+			user.show();
+		}
+		btn.confirm.onclick = function(){
+			var user = createPop('confirm', '3333333');
+			user.show();
+		}
+	</script>
+</body>
+</html>

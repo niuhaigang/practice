@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	/* 面向对象 
+	使用new命令时，它后面的函数调用就不是正常的调用，而是依次执行下面的步骤。
+	创建一个空对象，作为将要返回的对象实例
+	将这个空对象的原型，指向构造函数的prototype属性
+	将这个空对象赋值给函数内部的this关键字
+	开始执行构造函数内部的代码
+	*/
+	/*如果构造函数内部有return语句，而且return后面跟着一个对象，new命令会返回return语句指定的对象；否则，就会不管return语句，返回this对象。*/
+	// var V = function () {
+	// 	this.price = 2000;
+	// }
+	// var vv = new V();
+	// console.log(vv.price) // 2000
+
+	// var V = function () {
+	// 	this.price = 2000;
+	// 	return 2000
+	// }
+	// var vv = new V();
+	// console.log(vv === 2000);//false 构造函数V的return语句返回一个数值。这时，new命令就会忽略这个return语句，返回“构造”后的this对象。
+	/*如果return语句返回的是一个跟this无关的新对象，new命令会返回这个新对象，而不是this对象。*/ 
+	// var Vehicle = function (){
+	//   this.price = 1000;
+	//   return { p: 2000 };
+	// };
+	// console.log(new Vehicle().p)//2000
+	// console.log((new Vehicle()).price)// undefined
+	/*如果对普通函数（内部没有this关键字的函数）使用new命令，则会返回一个空对象。*/ 
+	// function getMessage() {
+	//   return 'this is a message';
+	// }
+	// var msg = new getMessage();
+	// msg // {}
+	/* new命令简化的内部流程，可以用下面的代码表示。*/
+	// function _new(/* 构造函数 */ constructor, /* 构造函数参数 */ param1) {
+	//   // 将 arguments 对象转为数组
+	//   var args = [].slice.call(arguments);
+	//   // 取出构造函数
+	//   var constructor = args.shift();
+	//   // 创建一个空对象，继承构造函数的 prototype 属性
+	//   var context = Object.create(constructor.prototype);
+	//   // 执行构造函数
+	//   var result = constructor.apply(context, args);
+	//   // 如果返回结果是对象，就直接返回，则返回 context 对象
+	//   return (typeof result === 'object' && result != null) ? result : context;
+	// }
+	// // 实例
+	// var actor = _new(Person, '张三', 28);
+	// 函数内部可以使用new.target属性。如果当前函数是new命令调用，new.target指向当前函数，否则为undefined。
+		// function f() {
+		//   console.log(new.target === f);
+		// }
+		// f() // false
+		// new f() // true
+		// 使用这个属性，可以判断函数调用的时候，是否使用new命令。
+		// function f() {
+		//   if (!new.target) {
+		//     throw new Error('请使用 new 命令调用！');
+		//   }
+		//   // ...
+		// }
+		// f() // Uncaught Error: 请使用 new 命令调用！
+
+
+	/*this总是返回一个对象，简单说，就是返回属性或方法“当前”所在的对象。
+	this的指向是可变的
+	只要函数被赋给另一个变量，this的指向就会变。
+	如果一个函数在全局环境中运行，那么this就是指顶层对象（浏览器中为window对象）
+	*/
+	// var A = {
+	// 	name: '张三',
+	// 	describe: function () {
+	// 		return '姓名：' + this.name;
+	// 	} 
+	// }
+	// var B = {
+	// 	name: '李四'
+	// }
+	// B.describe = A.describe;
+	// console.log(B.describe());// "姓名：李四"A.describe属性被赋给B，于是B.describe就表示describe方法所在的当前对象是B，所以this.name就指向B.name。
+	// 
+	/* 
+	在全局环境使用this，它指的就是顶层对象window。
+	构造函数中的this，指的是实例对象。
+	当 A 对象的方法被赋予 B 对象，该方法中的this就从指向 A 对象变成了指向 B 对象。所以要特别小心，将某个对象的方法赋值给另一个对象，会改变this的指向。
+	*/ 
+	// var obj ={
+	//   foo: function () {
+	//     console.log(this);
+	//   }
+	// };
+	// obj.foo() // obj obj.foo方法执行时，它内部的this指向obj。
+	/*但是，只有这一种用法（直接在obj对象上调用foo方法），this指向obj；其他用法时，this都指向代码块当前所在对象（浏览器为window对象）。*/ 
+	// // 情况一
+	// (obj.foo = obj.foo)() // window
+	// // 情况二
+	// (false || obj.foo)() // window
+	// // 情况三
+	// (1, obj.foo)() // window
+	/* 
+	由于this的指向是不确定的，所以切勿在函数中包含多层的this。
+	避免数组处理方法中的this:数组的map和foreach方法，允许提供一个函数作为参数。这个函数内部不应该使用this。
+	避免回调函数中的this ,回调函数中的this往往会改变指向，最好避免使用。
+	*/ 
+	// var o = {
+	// 	v:'hello',
+	// 	p: ['a1', 'a2'],
+	// 	f: function f() {
+	// 		this.p.forEach(function(item) {
+	// 			console.log(this.v + ' ' + item);
+	// 		})
+	// 	}
+	// }
+	// o.f();// undefined a1 // undefined a2
+	// var o = {
+	// 	v:'hello',
+	// 	p: ['a1', 'a2'],
+	// 	f: function f() {
+	// 		var that = this
+	// 		that.p.forEach(function(item) {
+	// 			console.log(that.v + ' ' + item);
+	// 		})
+	// 	}
+	// }
+	// o.f();//hello a1/hello a2 解决办法
+	/*另一种方法是将this当作foreach方法的第二个参数，固定它的运行环境。*/ 
+	// var o = {
+	// 	v:'hello',
+	// 	p: ['a1', 'a2'],
+	// 	f: function f() {
+	// 		this.p.forEach(function(item) {
+	// 			console.log(this.v + ' ' + item);
+	// 		}, this)
+	// 	}
+	// }
+	// o.f();//hello a1/hello a2 解决办法
+	// 
+	// var o = new Object();
+
+	// o.f = function () {
+	//   console.log(this === o);
+	// }
+	// o.f() // true
+	// 上面代码表示，如果调用o对象的f方法，其中的this就是指向o对象。
+	// 但是，如果将f方法指定给某个按钮的click事件，this的指向就变了。
+	// $('#button').on('click', o.f);
+	// 点击按钮以后，控制台会显示false。原因是此时this不再指向o对象，而是指向按钮的DOM对象，因为f方法是在按钮对象的环境中被调用的。这种细微的差别，很容易在编程中忽视，导致难以察觉的错误。
+	// 
+	// 
+	/* 绑定this的方法
+	JavaScript提供了call、apply、bind这三个方法，来切换/固定this的指向。
+	*/ 
+	//1.function.prototype.call()函数实例的call方法，可以指定函数内部this的指向（即函数执行时所在的作用域），然后在所指定的作用域中，调用该函数。
+	//call方法的参数，应该是一个对象。如果参数为空、null和undefined，则默认传入全局对象。
+	//如果call方法的参数是一个原始值，那么这个原始值会自动转成对应的包装对象，然后传入call方法。
+	// var obj = {}
+	// var j = function () {
+	// 	return this;
+	// }
+	// console.log(j() === this) //true
+	// console.log(j.call(obj) === obj) //true
+	// var n = 123;
+	// var o = { n: 456};
+	// var a = function () {
+	// 	console.log(this.n)
+	// }
+	// a.call(); //123
+	// a.call(null);//123
+	// a.call(undefined);//123
+	// a.call(o)//456
+	// 
+	/* 
+	call方法还可以接受多个参数。
+	func.call(thisValue, arg1, arg2, ...)
+	call的第一个参数就是this所要指向的那个对象，后面的参数则是函数调用时所需的参数。
+	function add(a, b) {
+	  return a + b;
+	}
+	add.call(this, 1, 2) // 3
+	上面代码中，call方法指定函数add内部的this绑定当前环境（对象），并且参数为1和2，因此函数add运行后得到3。
+	call方法的一个应用是调用对象的原生方法。
+	var obj = {};
+	obj.hasOwnProperty('toString') // false
+	// 覆盖掉继承的 hasOwnProperty 方法
+	obj.hasOwnProperty = function () {
+	  return true;
+	};
+	obj.hasOwnProperty('toString') // true
+	Object.prototype.hasOwnProperty.call(obj, 'toString') // false
+	上面代码中，hasOwnProperty是obj对象继承的方法，如果这个方法一旦被覆盖，就不会得到正确结果。call方法可以解决这个问题，它将hasOwnProperty方法的原始定义放到obj对象上执行，这样无论obj上有没有同名方法，都不会影响结果。
+	*/ 
+
+	/* apply方法的作用与call方法类似，也是改变this指向，然后再调用该函数。唯一的区别就是，它接收一个数组作为函数执行时的参数，使用格式如下。
+	func.apply(thisValue, [arg1, arg2, ...])
+	apply方法的第一个参数也是this所要指向的那个对象，如果设为null或undefined，则等同于指定全局对象。第二个参数则是一个数组，该数组的所有成员依次作为参数，传入原函数。原函数的参数，在call方法中必须一个个添加，但是在apply方法中，必须以数组形式添加
+
+	（1）找出数组最大元素
+	JavaScript不提供找出数组最大元素的函数。结合使用apply方法和Math.max方法，就可以返回数组的最大元素。
+	var a = [10, 2, 4, 15, 9];
+	Math.max.apply(null, a)
+	（2）将数组的空元素变为undefined
+	通过apply方法，利用Array构造函数将数组的空元素变成undefined。
+	Array.apply(null, ["a",,"b"])
+	// [ 'a', undefined, 'b' ]
+	空元素与undefined的差别在于，数组的forEach方法会跳过空元素，但是不会跳过undefined
+	（3）转换类似数组的对象
+	另外，利用数组对象的slice方法，可以将一个类似数组的对象（比如arguments对象）转为真正的数组。
+	Array.prototype.slice.apply({0:1,length:1})// [1]
+	（4）绑定回调函数的对象
+	var o = new Object();
+	o.f = function () {
+	  console.log(this === o);
+	}
+	var f = function (){
+	  o.f.apply(o);
+	  // 或者 o.f.call(o);
+	};
+	$('#button').on('click', f);
+	点击按钮以后，控制台将会显示true。由于apply方法（或者call方法）不仅绑定函数执行时所在的对象，还会立即执行函数，因此不得不把绑定语句写在一个函数体内。更简洁的写法是采用下面介绍的bind方法。
+	*/
+	/* function.prototype.bind()   bind方法用于将函数体内的this绑定到某个对象，然后返回一个新函数。
+	var d = new Date();
+	d.getTime() // 1481869925657
+	var print = d.getTime;
+	print() // Uncaught TypeError: this is not a Date object.
+	上面代码中，我们将d.getTime方法赋给变量print，然后调用print就报错了。这是因为getTime方法内部的this，绑定Date对象的实例，赋给变量print以后，内部的this已经不指向Date对象的实例了。
+	bind方法可以解决这个问题，让log方法绑定console对象。
+	var print = d.getTime.bind(d);
+	print() // 1481869925657
+	上面代码中，bind方法将getTime方法内部的this绑定到d对象，这时就可以安全地将这个方法赋值给其他变量了。
+	bind比call方法和apply方法更进一步的是，除了绑定this以外，还可以绑定原函数的参数。
+	
+	（1）每一次返回一个新函数
+	bind方法每运行一次，就返回一个新函数，这会产生一些问题。比如，监听事件的时候，不能写成下面这样。
+	element.addEventListener('click', o.m.bind(o));
+	上面代码中，click事件绑定bind方法生成的一个匿名函数。这样会导致无法取消绑定，所以，下面的代码是无效的。
+	element.removeEventListener('click', o.m.bind(o));
+	正确的方法是写成下面这样：
+	var listener = o.m.bind(o);
+	element.addEventListener('click', listener);
+	element.removeEventListener('click', listener);
+
+	（2）结合回调函数使用
+	回调函数是JavaScript最常用的模式之一，但是一个常见的错误是，将包含this的方法直接当作回调函数。
+	var counter = {
+	  count: 0,
+	  inc: function () {
+	    'use strict';
+	    this.count++;
+	  }
+	};
+	function callIt(callback) {
+	  callback();
+	}
+	callIt(counter.inc)
+	// TypeError: Cannot read property 'count' of undefined
+	上面代码中，counter.inc方法被当作回调函数，传入了callIt，调用时其内部的this指向callIt运行时所在的对象，即顶层对象window，所以得不到预想结果。注意，上面的counter.inc方法内部使用了严格模式，在该模式下，this指向顶层对象时会报错，一般模式不会。
+	解决方法就是使用bind方法，将counter.inc绑定counter。
+	callIt(counter.inc.bind(counter));
+	counter.count // 1
+
+	解决这个问题，也是通过bind方法绑定this。
+	obj.print = function () {
+	  this.times.forEach(function (n) {
+	    console.log(this.name);
+	  }.bind(this));
+	};
+	obj.print()
+	// 张三
+	// 张三
+	// 张三
+
+	如果再进一步，将Function.prototype.call方法绑定到Function.prototype.bind对象，就意味着bind的调用形式也可以被改写。
+	function f() {
+	  console.log(this.v);
+	}
+	var o = { v: 123 };
+	var bind = Function.prototype.call.bind(Function.prototype.bind);
+	bind(f, o)() // 123
+	上面代码表示，将Function.prototype.call方法绑定Function.prototype.bind以后，bind方法的使用形式从f.bind(o)，变成了bind(f, o)。
+	*/
+
+	/*由于 JavaScript 的所有对象都有构造函数（只有null除外），而所有构造函数都有prototype属性（其实是所有函数都有prototype属性），所以所有对象都有自己的原型对象。
+	如果一层层地上溯，所有对象的原型最终都可以上溯到Object.prototype，即Object构造函数的prototype属性指向的那个对象。那么，Object.prototype对象有没有它的原型呢？回答可以是有的，就是没有任何属性和方法的null对象，而null对象没有自己的原型。
+	Object.getPrototypeOf(Object.prototype)
+	// null
+	上面代码表示，Object.prototype对象的原型是null，由于null没有任何属性，所以原型链到此为止。
+	如果对象自身和它的原型，都定义了一个同名属性，那么优先读取对象自身的属性，这叫做“覆盖”（overriding）
+	instanceof运算符返回一个布尔值，表示指定对象是否为某个构造函数的实例。
+	var v = new Vehicle();
+	v instanceof Vehicle // true
+	instanceof的原理是检查原型链，对于那些不存在原型链的对象，就无法判断。
+	Object.create(null) instanceof Object // false
+	上面代码中，Object.create(null)返回的新对象的原型是null，即不存在原型，因此instanceof就认为该对象不是Object的实例。
+	instanceof运算符只能用于对象，不适用原始类型的值。
+	var s = 'hello';
+	s instanceof String // false
+	上面代码中，字符串不是String对象的实例（因为字符串不是对象），所以返回false。
+	此外，对于undefined和null，instanceOf运算符总是返回false。
+	undefined instanceof Object // false
+	null instanceof Object // false
+	利用instanceof运算符，还可以巧妙地解决，调用构造函数时，忘了加new命令的问题。
+	function Fubar (foo, bar) {
+	  if (this instanceof Fubar) {
+	    this._foo = foo;
+	    this._bar = bar;
+	  }
+	  else {
+	    return new Fubar(foo, bar);
+	  }
+	*/
+	/*Object.getPrototypeOf()方法返回一个对象的原型。这是获取原型对象的标准方法。
+	// 空对象的原型是Object.prototype
+	Object.getPrototypeOf({}) === Object.prototype
+	// true
+	// 函数的原型是Function.prototype
+	function f() {}
+	Object.getPrototypeOf(f) === Function.prototype
+	// true
+	
+	// f 为 F 的实例对象，则 f 的原型是 F.prototype
+	var f = new F();
+	Object.getPrototypeOf(f) === F.prototype
+	// true
+
+	Object.setPrototypeOf方法可以为现有对象设置原型，返回一个新对象。
+	Object.setPrototypeOf方法接受两个参数，第一个是现有对象，第二个是原型对象。
+	var a = {x: 1};
+	var b = Object.setPrototypeOf({}, a);
+	// 等同于
+	// var b = {__proto__: a};
+	b.x // 1
+	*/
+	/* 对象实例的isPrototypeOf方法，用来判断一个对象是否是另一个对象的原型*/
+	// var a = {};
+	// var b = Object.create(a);
+	// var c = Object.create(b);
+	// console.log(a.isPrototypeOf(b))
+	// console.log(a.isPrototypeOf(c))//只要某个对象处在原型链上，isPrototypeOf都返回true。
+	// console.log(b.isPrototypeOf(c))
+	// 
+	// Object.prototype.isPrototypeOf({}) // true
+	// Object.prototype.isPrototypeOf([]) // true
+	// Object.prototype.isPrototypeOf(/xyz/) // true
+	// Object.prototype.isPrototypeOf(Object.create(null)) // false
+	//上面代码中，由于Object.prototype处于原型链的最顶端，所以对各种实例都返回true，只有继承null的对象除外。
+	//
+	/*根据语言标准，__proto__属性只有浏览器才需要部署，其他环境可以没有这个属性，而且前后的两根下划线，表示它本质是一个内部属性，不应该对使用者暴露。因此，应该尽量少用这个属性，而是用Object.getPrototypeof()（读取）和Object.setPrototypeOf()（设置），进行原型对象的读写操作。
+
+	可以使用Object.getPrototypeOf方法，检查浏览器是否支持__proto__属性，老式浏览器不支持这个属性。
+	Object.getPrototypeOf({ __proto__: null }) === null
+	上面代码将一个对象的__proto__属性设为null，然后使用Object.getPrototypeOf方法获取这个对象的原型，判断是否等于null。如果当前环境支持__proto__属性，两者的比较结果应该是true。
+	*/
+	/*获取实例对象obj的原型对象，有三种方法。
+	obj.__proto__
+	obj.constructor.prototype
+	Object.getPrototypeOf(obj)*/
+
+	// var Fn = function () {};
+	// console.log(Fn.prototype); //构造函数，通过构造函数生成实例对象时，会自动为实例对象分配原型对象。每一个构造函数都有一个prototype属性，这个属性就是实例对象的原型对象。
+	// console.log(Fn.prototype.constructor)//prototype对象有一个constructor属性，默认指向prototype对象所在的构造函数。
+	// console.log(Fn.prototype.constructor === Fn) //true
+	// var fn = new Fn();
+	// console.log(fn)
+	// 
+	/*通过原型链，对象的属性分成两种：自身的属性和继承的属性*/ 
+	//Object.getOwnPropertyNames方法返回一个数组，成员是对象本身的所有属性的键名，不包含继承的属性键名。
+	// console.log(Object.getOwnPropertyNames(Date))//["length", "name", "prototype", "now", "parse", "UTC"]
+	// 对象本身的属性之中，有的是可以枚举的（enumerable），有的是不可以枚举的，Object.getOwnPropertyNames方法返回所有键名。只获取那些可以枚举的属性，使用Object.keys方法。
+	// console.log(Object.keys(Date));//[]
+	// 对象实例的hasOwnProperty方法返回一个布尔值，用于判断某个属性定义在对象自身，还是定义在原型链上。
+	//Date.hasOwnProperty('length')
+	// true
+	//Date.hasOwnProperty('toString')
+	// false
+	//hasOwnProperty方法是JavaScript之中唯一一个处理对象属性时，不会遍历原型链的方法。
+	/*in运算符返回一个布尔值，表示一个对象是否具有某个属性。它不区分该属性是对象自身的属性，还是继承的属性。
+	in运算符常用于检查一个属性是否存在。
+	获得对象的所有可枚举属性（不管是自身的还是继承的），可以使用for...in循环
+	获得对象的所有属性（不管是自身的还是继承的，以及是否可枚举），可以使用下面的函数。
+	function inheritedPropertyNames(obj) {
+	  var props = {};
+	  while(obj) {
+	    Object.getOwnPropertyNames(obj).forEach(function(p) {
+	      props[p] = true;
+	    });
+	    obj = Object.getPrototypeOf(obj);
+	  }
+	  return Object.getOwnPropertyNames(props);
+	}
+	上面代码依次获取obj对象的每一级原型对象“自身”的属性，从而获取Obj对象的“所有”属性，不管是否可遍历。
+	*/
+	/*如果要拷贝一个对象，需要做到下面两件事情。
+	确保拷贝后的对象，与原对象具有同样的prototype原型对象。
+	确保拷贝后的对象，与原对象具有同样的属性。
+	function copyObject(orig) {
+	  var copy = Object.create(Object.getPrototypeOf(orig));
+	  copyOwnPropertiesFrom(copy, orig);
+	  return copy;
+	}
+
+	function copyOwnPropertiesFrom(target, source) {
+	  Object
+	  .getOwnPropertyNames(source)
+	  .forEach(function(propKey) {
+	    var desc = Object.getOwnPropertyDescriptor(source, propKey);
+	    Object.defineProperty(target, propKey, desc);
+	  });
+	  return target;
+	}
+	*/
+	/* 多重继承
+	JavaScript 不提供多重继承功能，即不允许一个对象同时继承多个对象。但是，可以通过变通方法，实现这个功能。
+	function M1() {
+	  this.hello = 'hello';
+	}
+	function M2() {
+	  this.world = 'world';
+	}
+	function S() {
+	  M1.call(this);
+	  M2.call(this);
+	}
+	// 继承 M1
+	S.prototype = Object.create(M1.prototype);
+	// 继承链上加入 M2
+	Object.assign(S.prototype, M2.prototype);
+	// 指定构造函数
+	S.prototype.constructor = S;
+	var s = new S();
+	s.hello // 'hello：'
+	s.world // 'world'
+	上面代码中，子类S同时继承了父类M1和M2。这种模式又称为 Mixin（混入）*/
+</script>
+</html>

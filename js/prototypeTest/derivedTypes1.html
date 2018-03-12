@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>继承-类式继承</title>
+</head>
+<body>
+<script>
+	/**
+	*第一种类型：类式继承
+	
+	//声明父类
+	function SuperClass() {
+		this.superValue = true;
+	}
+	//为父类添加公有方法
+	SuperClass.prototype.getSuperValue = function () {
+		return this.superValue;
+	}
+	//声明子类
+	function SubClass() {
+		this.subValue = false;
+	}
+
+	//继承父类
+	SubClass.prototype = new SuperClass();
+	//为子类添加公有方法
+	SubClass.prototype.getSubValue = function () {
+		return this.subValue; 
+	}
+	var instance = new SubClass();//new实例化一个对象，没有prototype属性，通过-proto-原型链一层层找找到为止
+	console.log(instance);
+	console.log(instance.getSuperValue());//true
+	console.log(instance.getSubValue());//false
+	//instanceof判断对象是否为某个类的实例
+	console.log(instance instanceof SuperClass);//true
+	console.log(instance instanceof SubClass);//true
+	console.log(SubClass instanceof SuperClass);//false
+	console.log(SubClass instanceof SuperClass);//false
+	console.log(SubClass.prototype instanceof SuperClass);//true
+	console.log(instance instanceof Object);//true 所有对象都是Object的实例
+
+	**/
+	//类式继承存在的问题
+	function SuperClass() {
+		this.books = ['js', 'html', 'css'];
+	}
+	function SubClass() {};
+	SubClass.prototype = new SuperClass();
+	var instance1 = new SubClass();
+	var instance2 = new SubClass();
+
+	console.log(instance1.books);
+	instance2.books.push('设计模式');
+	console.log(instance1.books);
+
+</script>	
+</body>
+</html>

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>深入学习js</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	//变量命名
+	// var a = 1;
+	// var a;
+	// console.log(a);
+	// a = 2;
+	// console.log(a)
+	
+	// 变量提升
+	// console.log(a);
+	// var a = 1;
+	// console.log(b);
+	
+	// 这是单行注释
+	/*
+	 这是
+	 多行
+	 注释
+	*/
+	/*
+	JavaScript有一些保留字，不能用作标识符：arguments、break、case、catch、class、const、continue、debugger、default、delete、do、else、enum、eval、export、extends、false、finally、for、function、if、implements、import、in、instanceof、interface、let、new、null、package、private、protected、public、return、static、super、switch、this、throw、true、try、typeof、var、void、while、with、yield。
+	另外，还有三个词虽然不是保留字，但是因为具有特别含义，也不应该用作标识符：Infinity、NaN、undefined
+	 */
+
+	// 标签
+	// top:
+	// for (var i = 0; i < 3; i++) {
+	// 	for (var j = 0; j < 3; j++) {
+	// 		if (i === 1 && j === 1) {
+	// 			// break top;
+	// 			continue top;
+	// 		};
+	// 		console.log('i=' + i +',j=' + j);
+	// 	}
+	// }
+	
+
+	/*
+	JavaScript 的数据类型，共有六种
+		数值（number）：整数和小数（比如1和3.14）
+		字符串（string）：字符组成的文本（比如”Hello World”）
+		布尔值（boolean）：true（真）和false（假）两个特定值
+		undefined：表示“未定义”或不存在，即由于目前没有定义，所以此处暂时没有任何值
+		null：表示无值，即此处的值就是“无”的状态。
+		对象（object）：各种值组成的集合
+
+		对象又可以分成三个子类型。
+			狭义的对象（object）
+			数组（array）
+			函数（function）
+	 */
+	/*
+	JavaScript有三种方法，可以确定一个值到底是什么类型。
+		typeof运算符
+		instanceof运算符
+		Object.prototype.toString方法
+	 */
+	// console.log(typeof(123));
+	// console.log(typeof('123'));
+	// console.log(typeof(false));
+	// function f() {};
+	// console.log(typeof(f));
+	// console.log(undefined);
+	// console.log(typeof(window))
+	// console.log(typeof({}))//typeof对数组（array）和对象（object）的显示结果都是object
+	// console.log(typeof([]))
+	// console.log(typeof(null))
+	// var a = [];
+	// var b = {};
+	// console.log(a instanceof Array)
+	// console.log(b instanceof Array)
+	// if (!undefined) {
+	//   console.log('undefined is false');
+	// }
+	// undefined is false
+	// if (!null) {
+	//   console.log('null is false');
+	// }
+	// null is false
+	// console.log(undefined == null)
+	// true
+	// console.log(undefined === null)
+	// false
+	// console.log(Number(undefined)) //NaN
+	// console.log(Number(null))//0
+	
+	/*布尔值
+	转换规则是除了下面六个值被转为false，其他值都视为true。
+		undefined
+		null
+		false
+		0
+		NaN
+		""或''（空字符串）
+	*/
+	/*
+	数值
+	JavaScript 内部，所有数字都是以64位浮点数形式储存
+	大于2的53次方以后.多出的三个有效数字，将无法保存
+		9007199254740992111
+		9007199254740992000
+	 */
+	// console.log(1 === 1.0) // true
+	// console.log(0.1 + 0.2 === 0.3) //false
+	// console.log(Math.pow(2, 53))
+	
+	//取值范围
+	// console.log(Number.MAX_VALUE)
+	// console.log(Number.MIN_VALUE)
+	// NaN
+	// NaN不等于任何值，包括它本身。
+	// console.log(NaN === NaN) // false
+	// console.log(Math.acos(2)) // NaN
+	// console.log(Math.log(-1)) // NaN
+	// console.log(Math.sqrt(-1)) // NaN
+	// console.log(isNaN(NaN)) // true
+	// console.log(isNaN('Hello')) // true
+	// 相当于
+	// console.log(isNaN(Number('Hello'))) // true
+	// console.log(Number([])) // 0
+	/* Infinity表示正的无穷，-Infinity表示负的无穷。
+	  Infinity与NaN比较，总是返回false。
+	*/
+	/*isFinite函数返回一个布尔值，检查某个值是不是正常数值，而不是Infinity。*/
+	// console.log(isFinite(Infinity)) // false
+	// console.log(isFinite(-1)) // true
+	// console.log(isFinite(true)) // true
+	// console.log(isFinite(NaN)) // false
+	/*
+	parseInt转整数
+	parseFloat方法用于将一个字符串转为浮点数。
+	parseFloat(true)  // NaN
+	Number(true) // 1
+	parseFloat(null) // NaN
+	Number(null) // 0
+	parseFloat('') // NaN
+	Number('') // 0
+	parseFloat('123.45#') // 123.45
+	Number('123.45#') // NaN
+	 */
+	
+	/*
+	\0 null（\u0000）
+	\b 后退键（\u0008）
+	\f 换页符（\u000C）
+	\n 换行符（\u000A）
+	\r 回车键（\u000D）
+	\t 制表符（\u0009）
+	\v 垂直制表符（\u000B）
+	\' 单引号（\u0027）
+	\" 双引号（\u0022）
+	\ 反斜杠（\u005C）
+	需要用反斜杠转义的特殊字符
+	 */
+	// 字符串也无法直接使用数组的方法，必须通过call方法间接使用。
+	 // var s = 'hello'
+	// console.log(s.join('   '));
+	// console.log(Array.prototype.join.call(s, '   '))
+	/*
+	length属性返回字符串的长度，该属性也是无法改变的
+	s.length = 2
+	console.log(s.length)
+	*/
+
+	/*
+	btoa()：字符串或二进制值转为Base64编码
+	atob()：Base64编码转为原来的编码
+	 */
+	// var string = 'Hello World!';
+	// var s = '你好'
+	// console.log(btoa(string))// "SGVsbG8gV29ybGQh"
+	// console.log(atob('SGVsbG8gV29ybGQh')) // "Hello World!"
+	// console.log(btoa(s))// 这两个方法不适合非ASCII码的字符，会报错。
+	// 要将非ASCII码字符转为Base64编码，必须中间插入一个转码环节，再使用这两个方法。
+	// function b64Encode(str) {
+	//   return btoa(encodeURIComponent(str));
+	// }
+	// function b64Decode(str) {
+	//   return decodeURIComponent(atob(str));
+	// }
+	// console.log(b64Encode('你好')) // "JUU0JUJEJUEwJUU1JUE1JUJE"
+	// console.log(b64Decode('JUU0JUJEJUEwJUU1JUE1JUJE')) // "你好"
+	/*
+	如果不同的变量名指向同一个对象，那么它们都是这个对象的引用，也就是说指向同一个内存地址。修改其中一个变量，会影响到其他所有变量。
+	 */ 
+	// var o1 = {};
+	// var o2 = o1;
+	// o1.a = 1;
+	// o2.a // 1
+	// o2.b = 2;
+	// o1.b // 2
+	// o2.a = 3
+	// console.log(o1.a) //3
+	/*
+	这种引用只局限于对象，对于原始类型的数据则是传值引用，也就是说，都是值的拷贝
+	 */ 
+	// var x = 1;
+	// var y = x;
+	// x = 2;
+	// console.log(y) // 1
+	// console.log(x) // 2
+	// 如果行首是大括号，一律解释为语句（即代码块）。如果要解释为表达式（即对象），必须在大括号前加上圆括号。
+	// eval('{foo: 123}') // 123
+	// eval('({foo: 123})') // {foo: 123} 
+	// 查看一个对象本身的所有属性，可以使用Object.keys方法。
+	// var o = {
+	// 	a: 132,
+	// 	b: 666
+	// }
+	// console.log(Object.keys(o)) // ["a", "b"]
+	/*
+	delete命令不能删除var命令声明的变量，只能用来删除属性。
+	delete命令只能删除对象本身的属性，无法删除继承的属性
+	删除一个不存在的属性，delete不报错，而且返回true。
+	delete命令会返回false，那就是该属性存在，且不得删除。
+	*/
+
+
+
+	/*
+	in运算符
+	in运算符用于检查对象是否包含某个属性（注意，检查的是键名，不是键值），如果包含就返回true，否则返回false。
+	
+	*/ 
+	// 假设变量x未定义,三种写法之中，如果x不存在，第一种写法会报错；如果x的值对应布尔值false（比如x等于空字符串），第二种写法无法得到正确结果；只有第三种写法，才能正确判断变量x是否存在。
+	// 写法一：报错
+	// if (x) { return 1; }
+	// 写法二：不正确
+	// if (window.x) { return 1; }
+	// 写法三：正确
+	// if ('x' in window) { return 1; }
+	
+	// in运算符的一个问题是，它不能识别对象继承的属性
+	// var o = new Object();
+	// console.log(o.hasOwnProperty('toString')); //false
+	// console.log('toString' in o)//true
+	/*
+	for...in循环有两个使用注意点
+	它遍历的是对象所有可遍历（enumerable）的属性，会跳过不可遍历的属性
+	它不仅遍历对象自身的属性，还遍历继承的属性。
+	// name 是 Person 本身的属性
+		function Person(name) {
+		  this.name = name;
+		}
+
+		// describe是Person.prototype的属性
+		Person.prototype.describe = function () {
+		  return 'Name: '+this.name;
+		};
+
+		var person = new Person('Jane');
+
+		// for...in循环会遍历实例自身的属性（name），
+		// 以及继承的属性（describe）
+		for (var key in person) {
+		  console.log(key);
+		}
+		// name
+		// describe
+	*/ 
+	/*
+	length属性是可写的(而字符串的不可写)。如果人为设置一个小于当前成员个数的值，该数组的成员会自动减少到length设置的值。
+	将数组清空的一个有效方法，就是将length属性设为0。
+	 */ 
+	// var arr = ['a', 'b', 'c']
+	// arr.length = 2
+	// console.log(arr)
+	// arr.length = 0
+	// console.log(arr)
+	
+	/* 
+	类似数组的对象
+	类似数组的对象”并不是数组，因为它们不具备数组特有的方法
+	*/
+	// var obj = {
+	//   0: 'a',
+	//   1: 'b',
+	//   2: 'c',
+	//   length: 3
+	// };
+	// obj.length = 1
+	/*
+	典型的“类似数组的对象”是函数的arguments对象，以及大多数 DOM 元素集，还有字符串。
+	*/
+	// arguments对象
+	// function args() { return arguments }
+	// var arrayLike = args('a', 'b');
+	// console.log(arrayLike)
+	// console.log(arrayLike[0]) // 'a'
+	// console.log(arrayLike.length) // 2
+	// console.log(arrayLike instanceof Array) // false
+	// // DOM元素集
+	// var elts = document.getElementsByTagName('h3');
+	// elts.length // 3
+	// elts instanceof Array // false
+	// // 字符串
+	// 'abc'[1] // 'b'
+	// 'abc'.length // 3
+	// 'abc' instanceof Array // false
+	// 数组的slice方法可以将“类似数组的对象”变成真正的数组
+	// arrLike = Array.prototype.slice.call(arrayLike);
+	// console.log(arrLike)
+	// 除了转为真正的数组，“类似数组的对象”还有一个办法可以使用数组的方法，就是通过call()把数组的方法放到对象上面
+	// function print(value, index) {
+	// 	console.log(index + ' : ' + value);
+	// }
+	// Array.prototype.forEach.call(arrayLike, print);
+	// 注意，这种方法比直接使用数组原生的forEach要慢，所以最好还是先将“类似数组的对象”转为真正的数组，然后再直接调用数组的forEach方法。
+	// var arr = Array.prototype.slice.call('abc');
+	// arr.forEach(function (chr) {
+	// 	console.log(chr);
+	// });
+	// a
+	// b
+	// c
+	// for...in不仅会遍历数组所有的数字键，还会遍历非数字键。
+	// var a = [1, 2, 3];
+	// a.foo = true;
+	// for (var key in a) {
+	//   console.log(key);
+	// }
+	// // 0
+	// // 1
+	// // 2
+	// // foo
+	/*
+	 数组的空位
+	 */ 
+	// var a = [1, , 1];
+	// a.length // 3
+	// 使用delete命令删除一个数组成员，会形成空位，并且不会影响length属性。
+	// var a = [1, 2, 3];
+	// delete a[1];
+	// a[1] // undefined
+	// a.length // 3
+	// // var a = [, , ,];
+	// a.forEach(function (x, i) {
+	//   console.log(i + '. ' + x);
+	// })
+	// // 不产生任何输出
+	// for (var i in a) {
+	//   console.log(i);
+	// }
+	// // 不产生任何输出
+	// Object.keys(a)
+	// // []
+	// var a = [undefined, undefined, undefined];
+	// a.forEach(function (x, i) {
+	//   console.log(i + '. ' + x);
+	// });
+	// // 0. undefined
+	// // 1. undefined
+	// // 2. undefined
+	// for (var i in a) {
+	//   console.log(i);
+	// }
+	// // 0
+	// // 1
+	// // 2
+	// Object.keys(a)
+	// // ['0', '1', '2']
+	 
+	/*函数的声明3中方式
+		如果同一个函数被多次声明，后面的声明就会覆盖前面的声明
+	*/ 
+	// function f() {};
+	// var f = function(){};
+	// f = new function('a', 'b', 'return a+b')
+	/*递归函数
+	斐波那契数列 */ 
+	// function fib(num) {
+	// 	if (num === 0) return 0;
+	// 	if (num === 1) return 1;
+	// 	return fib(num - 2) + fib(num - 1);
+	// }
+	// console.log(fib(6)) //8
+	/*变量提升
+	如果同时采用function命令和赋值语句声明同一个函数，最后总是采用赋值语句的定义*/
+	// var f = function() {
+	//   console.log('1');
+	// }
+	// function f() {
+	//   console.log('2');
+	// }
+	// f() // 1
+	// 
+	/*函数的属性和方法
+	name属性返回紧跟在function关键字之后的那个函数名\
+	length属性返回函数预期传入的参数个数，即函数定义之中的参数个数。
+	函数的toString方法返回函数的源码
+	*/
+	// function fn() {
+	// 	/*
+	// 	这是一个
+	// 	多行注释
+	// 	*/
+	// };
+	// console.log(fn.name);
+	// console.log(fn['name']);
+	// console.log(fn.toString())
+	// var m = function(fn) {
+	// 	var arr = fn.toString().split('\n');
+	// 	return arr.slice(1, arr.length - 1).join('\n');
+	// } 
+	// console.log(m(fn));
+	/*默认值*/ 
+	// function f(a){
+	// 	a = a || 1;
+	// 	return a;
+	// }
+	// f('') // 1
+	// f(0) // 1
+	/*传递方式
+	函数参数如果是原始类型的值（数值、字符串、布尔值），传递方式是传值传递；在函数体内修改参数值，不会影响到函数外部。
+	如果函数参数是复合类型的值（数组、对象、其他函数），传递方式是传址传递；传入函数的原始值的地址，因此在函数内部修改参数，将会影响到原始值。
+	*/ 
+	// var v = 1;
+	// function a(p) {
+	// 	// p = 2
+	// 	window[p] = 2
+	// };
+	// a('v');
+	// console.log(v);
+	// var o = {
+	// 	p: 1,
+	// 	d: 2
+	// }
+	// function b(o) {
+	// 	o.p = 3
+	// }
+	// b(o)
+	// console.log(o);
+	
+	
+	/*闭包
+	定义在一个函数内部的函数
+	闭包就是将函数内部和函数外部连接起来的一座桥梁。
+	闭包的最大用处有两个，一个是可以读取函数内部的变量，另一个就是让这些变量始终保持在内存中，即闭包可以使得它诞生环境一直存在
+	*/ 
+	// function f1() {
+	// 	var n = 999;
+	// 	function f2() {
+	// 		console.log(n)
+	// 	}
+	// 	return f2
+	// }
+	// var result = f1()
+	// result(); //999
+	/*start是函数createIn的内部变量。通过闭包，start的状态被保留了，每一次调用都是在上一次调用的基础上进行计算。从中可以看到，闭包inc使得函数createInc的内部环境，一直存在。所以，闭包可以看作是函数内部作用域的一个接口。
+	闭包的最大用处有两个，一个是可以读取函数内部的变量，另一个就是让这些变量始终保持在内存中
+	闭包的另一个用处，是封装对象的私有属性和私有方法
+	注意，外层函数每次运行，都会生成一个新的闭包，而这个闭包又会保留外层函数的内部变量，所以内存消耗很大。因此不能滥用闭包，否则会造成网页的性能问题。
+	*/ 
+	// function createInc(start) {
+	// 	return function() {
+	// 		return start++
+	// 	}
+	// }
+	// var inc = createInc(5)
+	// console.log(inc()) //5
+	// console.log(inc())//6
+	// console.log(inc())//7
+	
+	
+	/*立即调用的函数表达式（IIFE）
+	在Javascript中，一对圆括号()是一种运算符，跟在函数名之后，表示调用该函数
+	*/ 
+	// function(){ /* code */ }();
+	// SyntaxError: Unexpected token (  //产生这个错误的原因是，function这个关键字即可以当作语句，也可以当作表达式。
+	// 语句
+	//function f() {}
+	// 表达式
+	//var f = function f() {}
+	/*
+	为了避免解析上的歧义，JavaScript引擎规定，如果function关键字出现在行首，一律解释成语句。因此，JavaScript引擎看到行首是function关键字之后，认为这一段都是函数的定义，不应该以圆括号结尾，所以就报错了。解决方法就是不要让function出现在行首，让引擎将其理解成一个表达式。最简单的处理，就是将其放在一个圆括号里面。
+	 */
+	//(function(){ /* code */ }());
+	// 或者
+	//(function(){ /* code */ })();
+	//注意，上面两种写法最后的分号都是必须的。如果省略分号，遇到连着两个IIFE，可能就会报错。
+	//任何让解释器以表达式来处理函数定义的方法，都能产生同样的效果，new关键字也能达到这个效果。
+	// var i = function(){ return 10; }();
+	// true && function(){ /* code */ }();
+	// 0, function(){ /* code */ }();
+	// !function(){ /* code */ }();
+	// ~function(){ /* code */ }();
+	// -function(){ /* code */ }();
+	// +function(){ /* code */ }();
+	/*
+	通常情况下，只对匿名函数使用这种“立即执行的函数表达式”。它的目的有两个：一是不必为函数命名，避免了污染全局变量；二是IIFE内部形成了一个单独的作用域，可以封装一些外部无法读取的私有变量。
+	 */ 
+	// 写法一
+	// var tmp = newData;
+	// processData(tmp);
+	// storeData(tmp);
+	// // 写法二
+	// (function (){
+	//   var tmp = newData;
+	//   processData(tmp);
+	//   storeData(tmp);
+	// }());
+	
+	/*eval命令
+	eval命令的作用是，将字符串当作语句执行。
+	eval没有自己的作用域，都在当前作用域内执行，因此可能会修改当前作用域的变量的值，造成安全问题。
+	*/ 
+	// eval('var a = 1;');
+	// console.log(a)
+	// 
+	// 
+	/*
+	加法运算符
+	1.如果运算子是对象，先自动转成原始类型的值（即先执行该对象的valueOf方法，如果结果还不是原始类型的值，再执行toString方法；如果对象是Date实例，则先执行toString方法）。
+	2.两个运算子都是原始类型的值以后，只要有一个运算子是字符串，则两个运算子都转为字符串，执行字符串连接运算。
+	3.否则，两个运算子都转为数值，执行加法运算。
+	 */ 
+	// 加法
+	// 1 + 1 // 2
+	// true + true // 2
+	// 1 + true // 2
+	// // 字符串连接
+	// '1' + '1' // "11"
+	// '1.1' + '1.1' // "1.11.1"
+	// 
+	/*自增和自减运算符有一个需要注意的地方，就是放在变量之后，会先返回变量操作前的值，再进行自增/自减操作；放在变量之前，会先进行自增/自减操作，再返回变量操作后的值。*/ 
+	// var x = 1;
+	// var y = 1;
+	// console.log(x++);//1
+	// console.log(++y);//2
+	/*JavaScript还提供其他11个复合的赋值运算符。*/
+	// x += y // 等同于 x = x + y
+	// x -= y // 等同于 x = x - y
+	// x *= y // 等同于 x = x * y
+	// x /= y // 等同于 x = x / y
+	// x %= y // 等同于 x = x % y
+	// x >>= y // 等同于 x = x >> y
+	// x <<= y // 等同于 x = x << y
+	// x >>>= y // 等同于 x = x >>> y
+	// x &= y // 等同于 x = x & y
+	// x |= y // 等同于 x = x | y
+	// x ^= y // 等同于 x = x ^ y 
+	/*比较运算符*/ 
+	//如果两个运算子都是字符串，则按照字典顺序比较（实际上是比较 Unicode 码点）。
+	//否则，将两个运算子都转成数值，再进行比较（等同于先调用Number函数）。
+	// 5 > '4' // true
+	// 等同于 5 > Number('4')
+	// 即 5 > 4
+	// true > false // true
+	// 等同于 Number(true) > Number(false)
+	// 即 1 > 0
+	// 2 > true // true
+	// 等同于 2 > Number(true)
+	// 即 2 > 1
+	// 这里有一个特殊情况，即任何值（包括NaN本身）与NaN比较，返回的都是false。
+	
+	// {} === {} // false
+	// [] === [] // false
+	// (function (){} === function (){}) // false
+	// 上面代码分别比较两个空对象、两个空数组、两个空函数，结果都是不相等。原因是对于复合类型的值，严格相等运算比较的是，它们是否引用同一个内存地址，而运算符两边的空对象、空数组、空函数的值，都存放在不同的内存地址，结果当然是false。
+	// 如果两个变量引用同一个对象，则它们相等。
+	// var v1 = {};
+	// var v2 = v1;
+	// v1 === v2 // true
+	// 注意，对于两个对象的比较，严格相等运算符比较的是地址，而大于或小于运算符比较的是值。
+	// 
+	// undefined 和 null
+	// undefined和null与自身严格相等。
+	// undefined === undefined // true
+	// null === null // true
+	// 由于变量声明后默认值是undefined，因此两个只声明未赋值的变量是相等的。
+	// var v1;
+	// var v2;
+	// v1 === v2 // true
+	// undefined和null与其他类型的值比较时，结果都为false，它们互相比较时结果为true。
+	// false == null // false
+	// false == undefined // false
+	// 0 == null // false
+	// 0 == undefined // false
+	// undefined == null // true
+	/*上面这些表达式都很容易出错，因此不要使用相等运算符（==），最好只使用严格相等运算符（===）*/ 
+	// '' == '0'           // false
+	// 0 == ''             // true
+	// 0 == '0'            // true
+	// 2 == true           // false
+	// 2 == false          // false
+	// false == 'false'    // false
+	// false == '0'        // true
+	// false == undefined  // false
+	// false == null       // false
+	// null == undefined   // true
+	// ' \t\r\n ' == 0     // true
+	
+	/*取反运算符（!）*/ 
+	// 对于非布尔值的数据，取反运算符会自动将其转为布尔值。规则是，以下六个值取反后为true，其他值取反后都为false。
+	// undefined
+	// null
+	// false
+	// 0（包括+0和-0）
+	// NaN
+	// 空字符串（''）
+	// 
+	/*void运算符
+	void运算符的作用是执行一个表达式，然后不返回任何值，或者说返回undefined。
+	*/ 
+	// void(0) // undefined
+	// 用途
+	// <a href="javascript: void(f())">文字</a>
+	/*逗号运算符
+	逗号运算符用于对两个表达式求值，并返回后一个表达式的值。
+	*/ 
+	// var x = 0;
+	// var y = (x++, 10);
+	// console.log(x) // 1
+	// console.log(y) // 10
+	/*根据语言规格，这五个运算符的优先级从高到低依次为：小于等于（<=)、严格相等（===）、或（||）、三元（?:）、等号（=）。因此上面的表达式，实际的运算顺序如下。
+	圆括号不是运算符，而是一种语法结构。它一共有两种用法：一种是把表达式放在圆括号之中，提升运算的优先级；另一种是跟在函数的后面，作用是调用函数。
+	*/ 
+
+
+	/*强制转换主要指使用Number、String和Boolean三个构造函数，手动将各种类型的值，转换成数字、字符串或者布尔值
+	原始类型值的转换规则
+		原始类型的值主要是字符串、布尔值、undefined和null，它们都能被Number转成数值或NaN。
+		Number函数将字符串转为数值，要比parseInt函数严格很多。基本上，只要有一个字符无法转成数值，整个字符串就会被转为NaN。
+		parseInt('42 cats') // 42
+		Number('42 cats') // NaN
+		调用对象自身的valueOf方法。如果返回原始类型的值，则直接对该值使用Number函数，不再进行后续步骤。
+如果valueOf方法返回的还是对象，则改为调用对象自身的toString方法。如果toString方法返回原始类型的值，则对该值使用Number函数，不再进行后续步骤。
+如果toString方法返回的是对象，就报错。
+	*/
+	// 数值：转换后还是原来的值
+	// Number(324) // 324
+	// // 字符串：如果可以被解析为数值，则转换为相应的数值
+	// Number('324') // 324
+	// // 字符串：如果不可以被解析为数值，返回NaN
+	// Number('324abc') // NaN
+	// // 空字符串转为0
+	// Number('') // 0
+	// // 布尔值：true 转成1，false 转成0
+	// Number(true) // 1
+	// Number(false) // 0
+	// // undefined：转成 NaN
+	// Number(undefined) // NaN
+	// // null：转成0
+	// Number(null) // 0
+	// Number({a: 1}) // NaN
+	// Number([1, 2, 3]) // NaN
+	// Number([5]) // 5
+	// 默认情况下，对象的valueOf方法返回对象本身，所以一般总是会调用toString方法，而toString方法返回对象的类型字符串（比如[object Object]）。所以，会有下面的结果。
+	// Number({}) // NaN
+	/*
+	原始类型值的转换规则
+		数值：转为相应的字符串。
+		字符串：转换后还是原来的值。
+		布尔值：true转为"true"，false转为"false"。
+		undefined：转为"undefined"。
+		null：转为"null"
+
+		先调用对象自身的toString方法。如果返回原始类型的值，则对该值使用String函数，不再进行以下步骤。
+		如果toString方法返回的是对象，再调用原对象的valueOf方法。如果valueOf方法返回原始类型的值，则对该值使用String函数，不再进行以下步骤。
+		如果valueOf方法返回的是对象，就报错。
+	 */
+	/*
+	Boolean()
+	它的转换规则相对简单：除了以下六个值的转换结果为false，其他的值全部为true。
+	undefined
+	null
+	-0
+	0或+0
+	NaN
+	''（空字符串）
+	 */
+	/*
+	错误处理机制
+	大多数JavaScript引擎，对Error实例还提供name和stack属性，分别表示错误的名称和错误的堆栈，但它们是非标准的，不是每种实现都有。
+		message：错误提示信息
+		name：错误名称（非标准属性）
+		stack：错误的堆栈（非标准属性）
+	 */ 
+	// var err = new Error('出错了');
+	// console.log(err.message) // "出错了"
+	/*JavaScript的原生错误类型
+	1,SyntaxError是解析代码时发生的语法错误。
+	2,ReferenceError是引用一个不存在的变量时发生的错误。
+	3,RangeError是当一个值超出有效范围时发生的错误。主要有几种情况，一是数组长度为负数，二是Number对象的方法参数超出范围，以及函数堆栈超过最大值。
+	4,TypeError是变量或参数不是预期类型时发生的错误。比如，对字符串、布尔值、数值等原始类型的值使用new命令，就会抛出这种错误，因为new命令的参数应该是一个构造函数。
+	5,URIError是URI相关函数的参数不正确时抛出的错误，主要涉及encodeURI()、decodeURI()、encodeURIComponent()、decodeURIComponent()、escape()和unescape()这六个函数。
+	6,eval函数没有被正确执行时，会抛出EvalError错误。该错误类型已经不再在ES5中出现了，只是为了保证与以前代码兼容，才继续保留。
+	7,function UserError(message) {
+	   this.message = message || "默认信息";
+	   this.name = "UserError";
+	}
+	UserError.prototype = new Error();
+	UserError.prototype.constructor = UserError;
+	上面代码自定义一个错误对象UserError，让它继承Error对象。然后，就可以生成这种自定义的错误了。
+
+	throw语句的作用是中断程序执行，抛出一个意外或错误。它接受一个表达式作为参数，可以抛出各种值
+	为了对错误进行处理，需要使用try...catch结构。
+	try...catch结构允许在最后添加一个finally代码块，表示不管是否出现错误，都必需在最后运行的语句
+	*/ 
+</script>
+</html>

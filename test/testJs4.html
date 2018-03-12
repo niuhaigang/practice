@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	/*单线程模型指的是，JavaScript只在一个线程上运行。也就是说，JavaScript同时只能执行一个任务，其他任务都必须在后面排队等待。JavaScript只在一个线程上运行，不代表JavaScript引擎只有一个线程。事实上，JavaScript引擎有多个线程，单个脚本只能在一个线程上运行，其他线程都是在后台配合,为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质
+
+	setTimeout会在指定时间向消息队列添加一条消息。如果消息队列之中，此时没有其他消息，这条消息会立即得到处理；否则，这条消息会不得不等到其他消息处理完，才会得到处理。因此，setTimeout指定的执行时间，只是一个最早可能发生的时间，并不能保证一定会在那个时间发生。
+
+	Event Loop
+	下面是一些常见的JavaScript任务。
+	执行JavaScript代码
+	对用户的输入（包含鼠标点击、键盘输入等等）做出反应
+	处理异步的网络请求
+
+	所有任务可以分成两种，一种是同步任务（synchronous），另一种是异步任务（asynchronous）
+	同步任务指的是，在JavaScript执行进程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；异步任务指的是，不进入JavaScript执行进程、而进入“任务队列”（task queue）的任务，只有“任务队列”通知主进程，某个异步任务可以执行了，该任务（采用回调函数的形式）才会进入JavaScript进程执行。
+
+	想要理解Event Loop，就要从程序的运行模式讲起。运行以后的程序叫做“进程”（process），一般情况下，一个进程一次只能执行一个任务。如果有很多任务需要执行，不外乎三种解决方法。
+	排队。因为一个进程一次只能执行一个任务，只好等前面的任务执行完了，再执行后面的任务。
+	新建进程。使用fork命令，为每个任务新建一个进程。
+	新建线程。因为进程太耗费资源，所以如今的程序往往允许一个进程包含多个线程，由线程去完成任务。
+		*/
+	 
+	 /*JavaScript提供定时执行代码的功能，叫做定时器（timer），主要由setTimeout()和setInterval()这两个函数来完成。*/
+	// 	 var timerId = setTimeout(func|code, delay)
+	// 上面代码中，setTimeout函数接受两个参数，第一个参数func|code是将要推迟执行的函数名或者一段代码，第二个参数delay是推迟执行的毫秒数。
+	/*etTimeout还有一个需要注意的地方：如果被setTimeout推迟执行的回调函数是某个对象的方法，那么该方法中的this关键字将指向全局环境，而不是定义时所在的那个对象。
+	var x = 1;
+	var o = {
+	  x: 2,
+	  y: function(){
+	    console.log(this.x);
+	  }
+	};
+	setTimeout(o.y,1000);
+	// 1
+	另一种解决方法是，使用bind方法，将绑定sayHi绑定在user上面。
+	*/ 
+	/*setInterval函数的用法与setTimeout完全一致，区别仅仅在于setInterval指定某个任务每隔一段时间就执行一次，也就是无限次的定时执行*/
+	/*setInterval指定的是“开始执行”之间的间隔，并不考虑每次任务执行本身所消耗的时间。因此实际上，两次执行之间的间隔会小于指定的时间。比如，setInterval指定每100ms执行一次，每次执行需要5ms，那么第一次执行结束后95毫秒，第二次执行就会开始。如果某次执行耗时特别长，比如需要105毫秒，那么它结束后，下一次执行就会立即开始。
+
+	为了确保两次执行之间有固定的间隔，可以不用setInterval，而是每次执行结束后，使用setTimeout指定下一次执行的具体时间。
+	根据这种思路，可以自己部署一个函数，实现间隔时间确定的setInterval的效果。
+
+	function interval(func, wait){
+	  var interv = function(){
+	    func.call(null);
+	    setTimeout(interv, wait);
+	  };
+	  setTimeout(interv, wait);
+	}
+	interval(function(){
+	  console.log(2);
+	},1000);
+
+	(function() {
+	  var gid = setInterval(clearAllTimeouts, 0);
+
+	  function clearAllTimeouts() {
+	    var id = setTimeout(function() {}, 0);
+	    while (id > 0) {
+	      if (id !== gid) {
+	        clearTimeout(id);
+	      }
+	      id--;
+	    }
+	  }
+	})();
+	运行上面代码后，实际上再设置任何setTimeout都无效了。
+	这种做法叫做debounce（防抖动）方法，用来返回一个新函数。只有当两次触发之间的时间间隔大于事先设定的值，这个新函数才会运行实际的任务。假定两次Ajax通信的间隔不小于2500毫秒，上面的代码可以改写成下面这样。
+	$('textarea').on('keydown', debounce(ajaxAction, 2500))
+
+	function debounce(fn, delay){
+	  var timer = null; // 声明计时器
+	  return function(){
+	    var context = this;
+	    var args = arguments;
+	    clearTimeout(timer);
+	    timer = setTimeout(function(){
+	      fn.apply(context, args);
+	    }, delay);
+	  };
+	}
+
+	// 用法示例
+	var todoChanges = _.debounce(batchLog, 1000);
+	Object.observe(models.todo, todoChanges);
+	*/
+
+	/*setTimeout和setInterval的运行机制是，将指定的代码移出本次执行，等到下一轮 Event Loop 时，再检查是否到了指定时间。如果到了，就执行对应的代码；如果不到，就等到再下一轮 Event Loop 时重新判断
+	这意味着，setTimeout和setInterval指定的代码，必须等到本轮 Event Loop 的所有任务都执行完，才会开始执行。由于前面的任务到底需要多少时间执行完，是不确定的，所以没有办法保证，setTimeout和setInterval指定的任务，一定会按照预定时间执行。
+
+	setTimeout(f, 0)指定的任务，最早也要到下一次Event Loop才会执行。请看下面的例子
+	setTimeout(function() {
+	  console.log("Timeout");
+	}, 0);
+	function a(x) {
+	  console.log("a() 开始运行");
+	  b(x);
+	  console.log("a() 结束运行");
+	}
+	function b(y) {
+	  console.log("b() 开始运行");
+	  console.log("传入的值为" + y);
+	  console.log("b() 结束运行");
+	}
+	console.log("当前任务开始");
+	a(42);
+	console.log("当前任务结束");
+	// 当前任务开始
+	// a() 开始运行
+	// b() 开始运行
+	// 传入的值为42
+	// b() 结束运行
+	// a() 结束运行
+	// 当前任务结束
+	// Timeout
+	上面代码说明，setTimeout(f, 0)必须要等到当前脚本的所有同步任务结束后才会执行。
+	即使消息队列是空的，0毫秒实际上也是达不到的。根据HTML 5标准，setTimeout推迟执行的时间，最少是4毫秒。如果小于这个值，会被自动增加到4。这是为了防止多个setTimeout(f, 0)语句连续执行，造成性能问题。
+	另一方面，浏览器内部使用32位带符号的整数，来储存推迟执行的时间。这意味着setTimeout最多只能推迟执行2147483647毫秒（24.8天），超过这个时间会发生溢出，导致回调函数将在当前任务队列结束后立即执行，即等同于setTimeout(f, 0)的效果。
+	*/
+	/*需要区分两种任务：正常任务（task）与微任务（microtask）。它们的区别在于，“正常任务”在下一轮Event Loop执行，“微任务”在本轮Event Loop的所有任务结束后执行
+	onsole.log(1);
+	setTimeout(function() {
+	  console.log(2);
+	}, 0);
+	Promise.resolve().then(function() {
+	  console.log(3);
+	}).then(function() {
+	  console.log(4);
+	});
+	console.log(5);
+	// 1
+	// 5
+	// 3
+	// 4
+	// 2
+	上面代码的执行结果说明，setTimeout(fn, 0)在Promise.resolve之后执行。
+	这是因为setTimeout语句指定的是“正常任务”，即不会在当前的Event Loop执行。而Promise会将它的回调函数，在状态改变后的那一轮Event Loop指定为微任务。所以，3和4输出在5之后、2之前。
+	正常任务包括以下情况。
+	setTimeout
+	setInterval
+	setImmediate
+	I/O
+	各种事件（比如鼠标单击事件）的回调函数
+	微任务目前主要是process.nextTick和 Promise 这两种情况。
+	*/
+
+	/* 
+	1, 假定有两个函数f1和f2，后者必须等到前者执行完成，才能执行。这时，可以考虑改写f1，把f2写成f1的回调函数。
+	function f1(callback) {
+	  // f1 的代码
+	  // f1 执行完成后，调用回调函数
+	  callback();
+	}
+	执行代码就变成下面这样。
+	f1(f2);
+	回调函数的优点是简单、容易理解和部署，缺点是不利于代码的阅读和维护，各个部分之间高度耦合（Coupling），使得程序结构混乱、流程难以追踪（尤其是回调函数嵌套的情况），而且每个任务只能指定一个回调函数
+	2,另一种思路是采用事件驱动模式。任务的执行不取决于代码的顺序，而取决于某个事件是否发生。
+	还是以f1和f2为例。首先，为f1绑定一个事件（这里采用的jQuery的写法）。
+	f1.on('done', f2);
+	上面这行代码的意思是，当f1发生done事件，就执行f2。然后，对f1进行改写：
+	function f1(){
+	  setTimeout(function () {
+	    // f1的任务代码
+	    f1.trigger('done');
+	  }, 1000);
+	}
+	上面代码中，f1.trigger('done')表示，执行完成后，立即触发done事件，从而开始执行f2。
+	这种方法的优点是比较容易理解，可以绑定多个事件，每个事件可以指定多个回调函数，而且可以”去耦合“（Decoupling），有利于实现模块化。缺点是整个程序都要变成事件驱动型，运行流程会变得很不清晰。
+	3.发布、订阅（观察者模式）
+*/
+/*
+	那么，什么是Promises？
+	首先，它是一个对象，也就是说与其他JavaScript对象的用法，没有什么两样；其次，它起到代理作用（proxy），充当异步操作与回调函数之间的中介。它使得异步操作具备同步操作的接口，使得程序具备正常的同步运行的流程，回调函数不必再一层层嵌套。
+	简单说，它的思想是，每一个异步任务立刻返回一个Promise对象，由于是立刻返回，所以可以采用同步操作的流程。这个Promises对象有一个then方法，允许指定回调函数，在异步任务完成后调用。
+	// 传统写法
+	step1(function (value1) {
+	  step2(value1, function(value2) {
+	    step3(value2, function(value3) {
+	      step4(value3, function(value4) {
+	        // ...
+	      });
+	    });
+	  });
+	});
+
+	// Promises的写法
+	(new Promise(step1))
+	  .then(step2)
+	  .then(step3)
+	  .then(step4);
+	  前面说过，Promise接口的基本思想是，异步任务返回一个Promise对象。
+
+	Promise对象只有三种状态。
+	异步操作“未完成”（pending）
+	异步操作“已完成”（resolved，又称fulfilled）
+	异步操作“失败”（rejected）
+	这三种的状态的变化途径只有两种。
+	异步操作从“未完成”到“已完成”
+	异步操作从“未完成”到“失败”。
+	这种变化只能发生一次，一旦当前状态变为“已完成”或“失败”，就意味着不会再有新的状态变化了。因此，Promise对象的最终结果只有两种。
+	异步操作成功，Promise对象传回一个值，状态变为resolved。
+	异步操作失败，Promise对象抛出一个错误，状态变为rejected。
+	Promise对象使用then方法添加回调函数。then方法可以接受两个回调函数，第一个是异步操作成功时（变为resolved状态）时的回调函数，第二个是异步操作失败（变为rejected）时的回调函数（可以省略）。一旦状态改变，就调用相应的回调函数。
+	function search(term) {
+	  var url = 'http://example.com/search?q=' + term;
+	  var xhr = new XMLHttpRequest();
+	  var result;
+	  var p = new Promise(function (resolve, reject) {
+	    xhr.open('GET', url, true);
+	    xhr.onload = function (e) {
+	      if (this.status === 200) {
+	        result = JSON.parse(this.responseText);
+	        resolve(result);
+	      }
+	    };
+	    xhr.onerror = function (e) {
+	      reject(e);
+	    };
+	    xhr.send();
+	  });
+	  return p;
+	}
+	search("Hello World").then(console.log, console.error);
+ */
+
+/*
+	进入“严格模式”的标志，是一行字符串use strict。
+	'use strict';
+	一、只读属性不可写
+	严格模式下，设置字符串的length属性，会报错。
+	'use strict';
+	'abc'.length = 5;
+	// TypeError: Cannot assign to read only property 'length' of string 'abc'
+	这是因为length是只读属性。
+	严格模式下，对只读属性赋值，或者删除不可配置（nonconfigurable）属性都会报错。
+	严格模式下，对一个只设置了赋值器（getter）的属性赋值，会报错。
+	'use strict';
+	var o = {
+	  get v() { return 1; }
+	};
+	o.v = 2; // 报错
+	严格模式下，对禁止扩展的对象添加新属性，会报错。
+	'use strict';
+	var o = {};
+	Object.preventExtensions(o);
+	o.v = 1; // 报错
+	严格模式下，使用eval或者arguments作为标识名，将会报错。
+	正常模式下，如果函数有多个重名的参数，可以用arguments[i]读取。严格模式下，这属于语法错误。
+	function f(a, a, b) { // 语法错误
+	  'use strict';
+	  return a + b;
+	}
+	在正常模式中，如果一个变量没有声明就赋值，默认是全局变量。严格模式禁止这种用法，全局变量必须显式声明。
+	'use strict';
+	v = 1; // 报错，v未声明
+	for (i = 0; i < 2; i++) { // 报错，i未声明
+	  // ...
+	}
+	function f() {
+	  x = 123;
+	}
+	f() // 报错，未声明就创建一个全局变量
+	正常模式下，函数内部的this可能会指向全局对象，严格模式禁止这种用法，避免无意间创造全局变量。
+	// 正常模式
+	function f() {
+	  console.log(this === window);
+	}
+	f() // true
+	// 严格模式
+	function f() {
+	  'use strict';
+	  console.log(this === undefined);
+	}
+	f() // true
+	这种限制对于构造函数尤其有用。使用构造函数时，有时忘了加new，这时this不再指向全局对象，而是报错。
+	function f() {
+	  'use strict';
+	  this.a = 1;
+	};
+	f();// 报错，this未定义
+	函数内部不得使用fn.caller、fn.arguments，否则会报错。这意味着不能在函数内部得到调用栈了。
+	function f1() {
+	  'use strict';
+	  f1.caller;    // 报错
+	  f1.arguments; // 报错
+	}
+	f1();
+	arguments.callee和arguments.caller是两个历史遗留的变量，从来没有标准化过，现在已经取消了。正常模式下调用它们没有什么作用，但是不会报错。严格模式明确规定，函数内部使用arguments.callee、arguments.caller将会报错。
+	严格模式下无法删除变量，如果使用delete命令删除一个变量，会报错。只有对象的属性，且属性的描述对象的configurable属性设置为true，才能被delete命令删除。
+	'use strict';
+	var x;
+	delete x; // 语法错误
+	var o = Object.create(null, {
+	  x: {
+	    value: 1,
+	    configurable: true
+	  }
+	});
+	delete o.x; // 删除成功
+ */
+</script>
+</html>

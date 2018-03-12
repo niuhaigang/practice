@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>flex布局</title>
+	<style type="text/css">
+		#box{
+			width: 610px;
+			height: 610px;
+			border: 1px solid black;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-end;
+			align-content: space-between;
+			/*flex-direction: column;
+			justify-content: space-between;
+			align-items: flex-end;*/
+		}
+		.item {
+			border: 1px solid red;
+			width: 200px;
+			height: 200px;
+		}
+		/*.item:nth-child(2){
+			align-self: center;
+		}
+		.item:nth-child(3){
+			align-self: flex-end;*/
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<span class="item">aa</span>
+		<span class="item">bb</span>
+		<span class="item">cc</span>
+		<span class="item">dd</span>
+	</div>
+	</div>
+</body>
+</html>

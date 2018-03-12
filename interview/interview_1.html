@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>INTERVIEW</title>
+</head>
+<body>
+	
+</body>
+<script src="js/interview.js"></script>
+<script type="text/javascript">
+	/*
+	一、除加号外其他都会Number自动转换
+	 */
+	// var a = '11' * 2;
+	// var b = 'a8' * 3;
+	// var c = 'a8' + 3;
+	// var d = 9/2
+	// var e = 5.3%3
+	// console.log(a);
+	// console.log(b);
+	// console.log(c);
+	// console.log(d);
+	// console.log(e);
+	/*
+	二、
+	*/
+	// var a = 6;
+	// setTimeout(function () {
+	// 	console.log(a); //66
+	// 	a = 666;
+	// }, 1000)
+	// a = 66
+	// 
+	// var a = 6;
+	// setTimeout(function() {
+	// 	var a = 666;
+	// 	console.log(a);//666
+	// } ,1000)
+	// a = 66;
+	// 
+	//  var a = 6;
+	// setTimeout(function() {
+	// 	console.log(a);//undefined
+	// 	var a = 666;
+	// } ,1000)
+	// a = 66;
+	// 
+	// var a = new Object();
+	// 	a.value = 1; 
+	// 	b = a;
+	// 	b.value = 2; 
+	// 	alert(a.value);//输出2
+	// 	
+	// console.log(null===undefined) //false
+	// console.log(null==undefined) //true
+	// console.log(!![]);//true
+	// function A(x){
+	//     this.x = x;
+	// }
+	// A.prototype.x = 1;
+
+	// function B(x){
+	//     this.x = x;
+	// }
+	// B.prototype = new A();
+	// var a = new A(2); 
+	// var b = new B(3);
+	// delete b.x;
+	// console.log(b);
+	// console.log(a.x)//2
+	// console.log(b.x)//undefined 
+	//  Array.prototype.contains = function(obj){
+ //    	return this.indexOf(obj) >= 0;
+	// }
+// 	for (var i = 0; i < 5; i++) {
+//     setTimeout(function(i) {
+//         return function(){
+//         	console.log(i)
+//         }
+//     }(i), 0);
+//     // console.log( i);
+// }
+// 
+/*之前说过，在定时器，事件，ajax等操作的时候，会使一个异步操作，会把该操作放到一个task queue里，需要等当前主线程的任务完成后，会读取任务队列(task queue)中的是事件。
+
+那么，setTimeout会放到任务队列中，代码继续往下走。 
+所以先输出2 3。 
+promise中的then操作是放在执行栈，也就是主线程的最后。 
+那么主线程会继续往下走咯。 
+所以输出 5 4 
+最后主线程的任务搞完了，才会去执行task queue中的任务。 
+所以最后执行1
+
+// 2， 3， 5， 4， 1
+*/ 
+// setTimeout(function(){
+ //    console.log(1);
+	// }, 0)
+
+	// new Promise(function executor(resolve){
+	//     console.log(2);
+	//     for(var i = 0; i < 1000; i++){
+	//         i = 9999 && resolve();
+	//     }
+	//     console.log(3);
+	// }).then(function(){
+	//     console.log(4);
+	// })
+	// console.log(5);
+	// 
+	/*
+		冒泡排序	
+	 */ 
+	// function bubbleSort(arr) {
+	// 	console.time('冒泡排序耗时');
+	// 	var len = arr.length
+	// 	for (var i = 0;i < len; i++) {
+	// 		for (var j = 0;j < len-1-i;j++) {
+	// 			if (arr[j]>arr[j+1]) {
+	// 				var temp = arr[j+1];
+	// 				arr[j+1] = arr[j];
+	// 				arr[j] = temp;
+	// 			}
+	// 		}
+	// 	}
+	// 	console.timeEnd('冒泡排序耗时');
+	// 	return arr;
+	// }
+	// var arr = [3,44,38,5,47,15,36,26,27,2,46,4,19,50,48];
+	// console.log(bubbleSort(arr));
+	 /*
+		选择排序
+	 */ 
+	// function selectionSort(arr) {
+	// 	var len = arr.length;
+	// 	var minIndex, temp;
+	// 	console.time('选择排除耗时')
+	// 	for (var i = 0;i < len-1;i++) {
+	// 		minIndex = i;
+	// 		for (var j = i;j < len;j++) {
+	// 			if (arr[j] < arr[minIndex]) {
+	// 				minIndex = j;
+	// 			}
+	// 		}
+	// 		temp = arr[i];
+	// 		arr[i] = arr[minIndex];
+	// 		arr[minIndex] = temp;
+	// 	}
+	// 	console.timeEnd('选择排除耗时');
+	// 	return arr;
+	// }
+	// var arr=[3,44,38,5,47,15,36,26,27,2,46,4,19,50,48];
+	// console.log(selectionSort(arr));//[2, 3, 4, 5, 15, 19, 26, 27, 36, 38, 44, 46, 47, 48, 50]
+	// 
+	/*去重*/
+	// var arr = [1,1,1,2,2,2,3,3,3,4,4,5];
+	// function a(arr) {
+	// 	var ret = []
+	// 	for (var i = 0,j = arr.length; i < j;i++) {
+	// 		if(ret.indexOf(arr[i]) == -1) {
+	// 			ret.push(arr[i])
+	// 		}
+	// 	}
+	// 	return ret;
+	// } 
+	// function a2(arr) {
+	// 	var temp = {};
+	// 	var ret = [];
+	// 	for (var i = 0,j = arr.length;i<j;i++) {
+	// 		if (!temp[arr[i]]) {
+	// 			temp[arr[i]] = 1;
+	// 			ret.push(arr[i])
+	// 		}
+	// 	}
+	// 	return ret;
+	 // }
+	// function a3(arr) {
+	// 	var ret = [];
+	// 	arr.forEach(function(e, i, arr){
+	// 		if (arr.indexOf(e) === i) {
+	// 			ret.push(e);
+	// 		}
+	// 	})
+	// 	return ret;
+	// }
+	// console.log(a3(arr));
+	// console.log(parseInt('3', 36)) 
+	// var name = 'World!';
+// (function () {
+//     if (typeof name === 'undefined') {
+//         var name = 'Jack';
+//         console.log('Goodbye ' + name);
+//     } else {
+//         console.log('Hello ' + name);
+//     }
+// })();
+// console.log([,,,].join(", "))
+
+// for(var i = 0; i < 5; i++) {
+//     console.log(i);
+// }//0,1,2,3,4
+
+// for(var i = 0; i < 5; i++) {
+//     setTimeout(function() {
+//         console.log(i);
+//     }, 1000 * i);
+// }///5,5,5,5,5
+
+// for(var i = 0; i < 5; i++) {
+//     (function(i) {
+//         setTimeout(function() {
+//             console.log(i);
+//         }, i * 1000);
+//     })(i);
+// }//0,1,2,3,4
+
+// for(var i = 0; i < 5; i++) {
+//     (function() {
+//         setTimeout(function() {
+//             console.log(i);
+//         }, i * 1000);
+//     })(i);
+// }//5,5,5,5,5
+
+// for(var i = 0; i < 5; i++) {
+//     setTimeout((function(i) {
+//         console.log(i);
+//     })(i), i * 1000);
+// }//0,1,2,3,4
+
+// setTimeout(function() {
+//   console.log(1)
+// }, 0);
+// new Promise(function executor(resolve) {
+//   console.log(2);
+//   for( var i=0 ; i<10000 ; i++ ) {
+//     i == 9999 && resolve();
+//   }
+//   console.log(3);
+// }).then(function() {
+//   console.log(4);
+// });
+// console.log(5); //2,3,5,4,1
+// 
+// function fn() {
+//     return 20;
+// }
+// console.log(fn + 10); // 输出结果是多少
+
+// function fn() {
+//     return 20;
+// }
+
+// fn.toString = function() {
+//     return 10;
+// }
+
+// console.log(fn + 10);  // 输出结果是多少？
+
+// function fn() {
+//     return 20;
+// }
+
+// fn.toString = function() {
+//     return 10;
+// }
+
+// fn.valueOf = function() {
+//     return 5;
+// }
+
+// console.log(fn + 10); // 输出结果是多少？
+// function add(a, b) {
+// 	console.log(a+b);
+// }
+// function sub(a, b) {
+// 	console.log(a-b);
+// }
+// add.apply(sub,[2,1]);
+function class1(){
+	this.name = 'class1';
+	this.getName = function(){
+		console.log(this.name);
+	}
+}
+function class2(){
+	this.name='class2'
+}
+var a = new class1();
+var b = new class2();
+a.getName.call(b);
+
+
+</script>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>继承-原型式继承</title>
+</head>
+<body>
+<script type="text/javascript">
+//原形继承
+	function inheritObject (o){
+		//声明一个过渡函数对象
+		function F(){};
+		//过渡对象的原形继承父对象
+		F.prototype = o;
+		//返回过渡对象的一个实例
+		return new F();
+	}
+	var book = {
+		name: 'js book',
+		alikeBook: ['css book','html book'] 
+	};
+	var newBook = inheritObject(book);
+	newBook.name = 'ajax book';
+	newBook.alikeBook.push("xml book");
+	var otherBook = inheritObject(book);
+	otherBook.name = 'flash book';
+	otherBook.alikeBook.push("as book");
+
+	console.log(newBook);
+	console.log(otherBook);
+</script>
+</body>
+</html> 
