@@ -34,6 +34,12 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    appId: "",
+    appSecret: "",
+    baseUrl: "https://spark.appublisher.com",
+    userInfo: null,
+    allImages: {},
+    windowWidth: wx.getSystemInfoSync().windowWidth,
+    testText: "腰果公考练习"
   }
 })

@@ -13,7 +13,12 @@ const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
+const testFun = data =>{
+  data = '测试测试'
+  return data
+}
 
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  testFun: testFun
 }

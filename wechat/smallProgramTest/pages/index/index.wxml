@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="userinfo">
+  <!-- <view class="userinfo">
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
     <block wx:else>
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
@@ -9,5 +9,30 @@
   </view>
   <view class="usermotto">
     <text class="user-motto">{{motto}}</text>
+  </view> -->
+  
+  <view>
+    <text>{{motto}}</text>
+  </view>
+
+  <import src="../common/item.wxml"/>
+  <template is="item" data="{{text}}"/>
+
+  <!--logo-->
+  <view>
+    <navigator url="/pages/logs/logs" hover-class="navigator-hover">
+      <image src="/images/home-logo.png" mode='aspectFit'></image>
+    </navigator>
+  </view>
+  <!--快速智能练习-->
+  <view>
+    <navigator url="/pages/logs/logs">
+      <image src="/images/home-exercise.png" bindtap="exercise"></image>
+    </navigator>
+  </view>
+  <!--收藏错题-->
+  <view>
+    <image src="/images/home-collect.png" bindtap="collect"></image>
+    <image src="/images/home-error.png" bindtap="error"></image>
   </view>
 </view>

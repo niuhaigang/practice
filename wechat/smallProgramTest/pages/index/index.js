@@ -1,13 +1,14 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
+var common = require('../../utils/util.js')
 Page({
   data: {
-    motto: 'Hello World',
+    motto: getApp().globalData.testText,
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    text: 'template测试'
   },
   //事件处理函数
   bindViewTap: function() {
@@ -42,13 +43,41 @@ Page({
         }
       })
     }
+    console.log(this.data)
+    console.log('Do some initialize when page load.');
   },
   getUserInfo: function(e) {
-    console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
-  }
+  },
+
+  onReady: function () {
+    console.log('Do something when page ready.');
+    console.log(getCurrentPages()[0].route);
+    console.log(common.testFun());
+  },
+  onShow: function () {
+    console.log('Do something when page show.')
+  },
+  onHide: function () {
+    console.log('Do something when page hide.') 
+  },
+  onUnload: function () {
+    console.log('Do something when page close.');
+  },
+  onPullDownRefresh: function () {
+    console.log('Do something when pull down.')
+  },
+  onReachBottom: function () {
+    console.log('Do something when page reach bottom.')
+  },
+  onShareAppMessage: function () {
+    console.log('return custom share data when user share.')
+  },
+  onPageScroll: function () {
+    console.log('Do something when page scroll')
+  },
 })
