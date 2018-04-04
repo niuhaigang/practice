@@ -11,7 +11,7 @@
     <text class="user-motto">{{motto}}</text>
   </view> -->
   
-  <view>
+  <view class="headline">
     <text>{{motto}}</text>
   </view>
 
@@ -19,20 +19,26 @@
   <template is="item" data="{{text}}"/>
 
   <!--logo-->
-  <view>
+  <view class="logo">
     <navigator url="/pages/logs/logs" hover-class="navigator-hover">
       <image src="/images/home-logo.png" mode='aspectFit'></image>
     </navigator>
   </view>
   <!--快速智能练习-->
-  <view>
-    <navigator url="/pages/logs/logs">
+  <view class="exercise" hover-class="none">
+    <navigator url="/pages/exercise/exercise" hover-class="none">
       <image src="/images/home-exercise.png" bindtap="exercise"></image>
     </navigator>
   </view>
   <!--收藏错题-->
-  <view>
+  <view class="collect-error">
     <image src="/images/home-collect.png" bindtap="collect"></image>
     <image src="/images/home-error.png" bindtap="error"></image>
   </view>
+  <scroll-view scroll-y bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll"      scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" class="scroll-y">
+    <view>发过玩法多个谁发的广泛地是个fd</view>
+    <view> 公司发的广泛地水果放到个反倒是</view>
+    <view> 割发代首感受到法国反倒是</view>
+    <view> 反倒是割发代首公司发的告诉对方</view>
+  </scroll-view>
 </view>

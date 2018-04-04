@@ -1,0 +1,12 @@
+.swiper image {
+  width: 100%;
+}
+.btn {
+  margin: 40rpx;
+}
+.slider {
+  margin: 60rpx;
+}
+text {
+  margin-left: 50rpx;
+}
