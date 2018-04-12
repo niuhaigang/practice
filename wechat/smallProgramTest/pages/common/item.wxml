@@ -1,4 +1,4 @@
 <!-- item.wxml -->
 <template name="item">
-  <text>{{text}}</text>
+  <text style="color: grey">{{text}}</text>
 </template>
