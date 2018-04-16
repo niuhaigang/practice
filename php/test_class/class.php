@@ -20,6 +20,8 @@ Class Father {
     public $name;
     protected $age;
     private $height;
+    static $like = '吃';
+    const SEX = '男';
 
     /**
      * 魔术方法
@@ -29,6 +31,10 @@ Class Father {
         $this->name = '父亲';
         $this->age = 49;
         $this->height = 180;
+        echo self::$like;  // 吃
+        echo self::SEX; // 男
+//          echo $this->like; //报错
+//          echo $this->SEX;//报错
     }
 
     /**
