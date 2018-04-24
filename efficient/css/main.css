@@ -12,3 +12,18 @@ body.efficent1 .header a:nth-child(2) {
 body.efficent2 .header a:nth-child(3) {
 	background: red;
 }
+
+input [type=checkbox]{
+	display: none;
+}
+.checkbox{
+	background: blue;
+	width: 10px;
+	height: 10px;
+	display: inline-block;
+}
+input [type=checkbox]:checked + .checkbox {
+	background: red;
+	width: 10px;
+	height: 10px;
+}
