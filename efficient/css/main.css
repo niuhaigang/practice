@@ -1,0 +1,14 @@
+.header a {
+	display: inline-block;
+	padding: 20px 40px;
+	background: yellow;
+}
+body.index .header a:nth-child(1) {
+	background: red;
+}
+body.efficent1 .header a:nth-child(2) {
+	background: red;
+}
+body.efficent2 .header a:nth-child(3) {
+	background: red;
+}
